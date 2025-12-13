@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Nerozhen | Portfolio</title>
+    <link rel="icon" href="img/nero_circle.png" sizes="16x16">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  </head>
+  <body class="winter-theme">
+    <div class="bg-gradient"></div>
+    
+    <div class="paws-container">
+      <div class="paw"></div>
+      <div class="paw"></div>
+      <div class="paw"></div>
+      <div class="paw"></div>
+      <div class="paw"></div>
+      <div class="paw"></div>
+      <div class="paw"></div>
+      <div class="paw"></div>
+      <div class="paw"></div>
+      <div class="paw"></div>
+      <div class="paw"></div>
+      <div class="paw"></div>
+    </div>
+
+    <div class="main-grid">
+      <!-- Spotify Now Playing - Bottom Right Slide-in -->
+    <div id="spotify-widget" class="spotify-widget">
+      <button id="spotify-close" class="spotify-close">&times;</button>
+      <img id="album-art" src="" alt="Album Art" />
+      <div class="spotify-info">
+        <p class="spotify-label"><i class="fa-brands fa-spotify"></i> Now Playing</p>
+        <p id="song-name"></p>
+        <p id="artist-name"></p>
+      </div>
+      <a id="listen-along-link" href="#" target="_blank" class="spotify-link">
+        <i class="fa-solid fa-external-link"></i>
+      </a>
+    </div>
+
+
+      <!-- Main Profile Card -->
+      <div class="container">
+        <div class="avatar-wrapper">
+          <div class="gradient-border">
+            <img src="img/avatar.png" alt="Avatar" class="profile-picture" />
+          </div>
+          <span class="discord-status-dot-avatar"></span>
+          <img src="img/friends/friend-sharky.jpg" alt="Sharky" class="profile-buddy" />
+          <span id="status-tooltip" class="status-tooltip">Shows my current Discord status</span>
+          <div id="discord-status-bubble" class="status-bubble"></div>
+        </div>
+
+        <h1 class="profile-name">@<span class="animated-text">Nerozhen</span></h1>
+        <p class="profile-bio">19y | German | Fox | Coder | Sysadmin</p>
+
+        <div class="links">
+          <!-- Row with two buttons -->
+          <div class="link-row">
+            <a href="https://t.me/nerozhen" target="_blank" class="link-button">
+              <span>Telegram</span> <i class="fa-brands fa-telegram"></i>
+            </a>
+            <a href="https://www.furaffinity.net/user/nerozhen" target="_blank" class="link-button">
+              <span>FurAffinity</span> <i class="fa-solid fa-paw"></i>
+            </a>
+          </div>
+          <div class="link-row">
+            <a href="https://github.com/furnero" target="_blank" class="link-button">
+              <span>Github</span> <i class="fa-brands fa-github"></i>
+            </a>
+            <a href="https://open.spotify.com/user/317cg62776c6vuaccvytl37uqykq" target="_blank" class="link-button">
+              <span>Spotify</span> <i class="fa-brands fa-spotify"></i>
+            </a>
+          </div>
+          <div class="link-row">
+            <a href="http://discordapp.com/users/683815400835645527" target="_blank" class="link-button">
+              <span>Discord</span> <i class="fa-brands fa-discord"></i>
+            </a>
+            <a href="https://orionsky.de/" target="_blank" class="link-button">
+              <span>OrionSky</span> <i class="fa-solid fa-globe"></i>
+            </a>
+          </div>
+          <div class="link-row">
+            <button class="link-button" data-overlay="gallery-overlay">
+              <span>Gallery</span> <i class="fa-solid fa-images"></i>
+            </button>
+            <button class="link-button" data-overlay="friends-overlay">
+              <span>Friends</span> <i class="fa-solid fa-users"></i>
+            </button>
+          </div>
+          <div class="link-row">
+            <button class="link-button" data-overlay="events-overlay">
+              <span>Events</span> <i class="fa-solid fa-calendar-days"></i>
+            </button>
+            <a href="https://pawhost.de/" target="_blank" class="link-button" id="pawhost-button">
+              <span>Pawhost</span> <i class="fa-solid fa-server"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery Overlay -->
+    <div id="gallery-overlay" class="overlay">
+      <div class="modal">
+        <span class="close-button">&times;</span>
+        <h2>Gallery</h2>
+        <div class="gallery-grid" id="gallery-grid">
+          <div class="gallery-item"><img src="img/gallery/comm-stickers.png" alt="Stickers" /></div>
+          <div class="gallery-item"><img src="img/gallery/comm-prideych.png" alt="Pride YCH" /></div>
+          <div class="gallery-item"><img src="img/gallery/comm-feveicon.png" alt="Feve Icon" /></div>
+          <div class="gallery-item"><img src="img/gallery/comm-pwyw.png" alt="Pay What You Want" /></div>
+          <div class="gallery-item"><img src="img/avatar.gif" alt="Avatar GIF" /></div>
+          <div class="gallery-item"><img src="img/gallery/comm-icecream.png" alt="Ice Cream" /></div>
+          <div class="gallery-item"><img src="img/gallery/comm-nero-refsheet.png" alt="Nero Refsheet" /></div>
+          <div class="gallery-item"><img src="img/gallery/comm-ef-badge.png" alt="EF Badge" /></div>
+          <div class="gallery-item"><img src="img/gallery/comm-tungtung.png" alt="EF Badge" /></div>
+          <div class="gallery-item"><img src="img/avatar.png" alt="EF Badge" /></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Friends Overlay -->
+    <div id="friends-overlay" class="overlay">
+      <div class="modal">
+        <span class="close-button">&times;</span>
+        <h2>My Friends</h2>
+        <div class="friends-list">
+          <div class="friend-card"><img src="img/friends/friend-chris.png" alt="Chris" /><span>Chris</span></div>
+          <div class="friend-card"><img src="img/friends/friend-sharky.jpg" alt="Sharky" /><span>Sharky</span></div>
+          <div class="friend-card"><img src="img/friends/friend-nerox.png" alt="Nerox" /><span>Nerox</span></div>
+          <div class="friend-card"><img src="img/friends/friend-jorden.png" alt="Jorden" /><span>Jorden</span></div>
+          <div class="friend-card"><img src="img/friends/friend-blueni.jpg" alt="Blueni" /><span>Blueni</span></div>
+          <div class="friend-card"><img src="img/friends/friend-tin.png" alt="Tin" /><span>Tin</span></div>
+          <div class="friend-card"><img src="img/friends/friend-blechi.png" alt="Blechi" /><span>Blechi</span></div>
+          <div class="friend-card"><img src="img/friends/friend-henry.jpg" alt="Henry" /><span>Henry</span></div>
+          <div class="friend-card"><img src="img/friends/friend-browny.png" alt="Browny" /><span>Browny</span></div>
+          <div class="friend-card"><img src="img/friends/friend-cecillion.png" alt="Cecillion" /><span>Cecillion</span></div>
+          <div class="friend-card"><img src="img/friends/friend-chessfreak.png" alt="Chessfreak" /><span>Chessfreak</span></div>
+          <div class="friend-card"><img src="img/friends/friend-arin.jpg" alt="Arin" /><span>Arin</span></div>
+          <div class="friend-card"><img src="img/friends/friend-draizon.png" alt="Draizon" /><span>Draizon</span></div>
+          <div class="friend-card"><img src="img/friends/friend-wolfi.jpg" alt="Wolfi" /><span>Wolfi</span></div>
+          <div class="friend-card"><img src="img/friends/friend-grinner.png" alt="Grinner" /><span>Grinner</span></div>
+          <div class="friend-card"><img src="img/friends/friend-jonesy.jpg" alt="Jonesy" /><span>Jonesy</span></div>
+          <div class="friend-card"><img src="img/friends/friend-koldr.png" alt="Koldr" /><span>Koldr</span></div>
+          <div class="friend-card"><img src="img/friends/friend-lunar.png" alt="Lunar" /><span>Lunar</span></div>
+          <div class="friend-card"><img src="img/friends/friend-takemura.png" alt="Takemura" /><span>Takemura</span></div>
+          <div class="friend-card"><img src="img/friends/friend-nox.jpg" alt="Nox" /><span>Nox</span></div>
+          <div class="friend-card"><img src="img/friends/friend-sveni.jpg" alt="Sveni" /><span>Sveni</span></div>
+          <div class="friend-card"><img src="img/friends/friend-trpanda.jpg" alt="TheRedPawnda" /><span>TheRedPawnda</span></div>
+          <div class="friend-card"><img src="img/friends/friend-onyx.png" alt="Onyx" /><span>Onyx</span></div>
+          <div class="friend-card"><img src="img/friends/friend-vanjimali.png" alt="Vanjimali" /><span>Vanjimali</span></div>
+          <div class="friend-card"><img src="img/friends/friend-arbie.png" alt="Arbie" /><span>Arbie</span></div>
+          <div class="friend-card"><img src="img/friends/friend-cobesnation.png" alt="Cobesnation" /><span>Cobesnation</span></div>
+          <div class="friend-card"><img src="img/friends/friend-cuddle.png" alt="Cuddle" /><span>Cuddle</span></div>
+          <div class="friend-card"><img src="img/friends/friend-fancore.png" alt="Fancore" /><span>Fancore</span></div>
+          <div class="friend-card"><img src="img/friends/friend-hutirati.png" alt="Hutirati" /><span>Hutirati</span></div>
+          <div class="friend-card"><img src="img/friends/friend-rakky.png" alt="Rakky" /><span>Rakky</span></div>
+          <div class="friend-card"><img src="img/friends/friend-raye.png" alt="Raye" /><span>Raye</span></div>
+          <div class="friend-card"><img src="img/friends/friend-victor.png" alt="Victor" /><span>Victor</span></div>
+          <div class="friend-card"><img src="img/friends/friend-wepwawet.png" alt="Wepwawet" /><span>Wepwawet</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Events Overlay -->
+    <div id="events-overlay" class="overlay">
+      <div class="modal">
+        <span class="close-button">&times;</span>
+        <h2>Events & Conventions</h2>
+        <div class="events-list">
+          <div class="event-card">
+            <img src="img/events/ef30.png" alt="Eurofurence 30 Logo" />
+            <div class="event-info">
+              <h3>Eurofurence 30</h3>
+              <p>19. - 23.08.26</p>
+            </div>
+          </div>
+        </div>
+        <div class="events-column">
+          <h3>Attended Events</h3>
+          <div class="attended-list">
+            <span class="event-tag">BSC 1</span>
+            <span class="event-tag">BFD 16</span>
+            <span class="event-tag">OpenBeatz 2025</span>
+            <span class="event-tag">EF 29</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comments/Guestbook Overlay -->
+    <div id="comments-overlay" class="overlay">
+      <div class="modal">
+        <span class="close-button">&times;</span>
+        <h2>Guestbook</h2>
+        <div class="comments-section">
+          <form id="comment-form" class="comment-form">
+            <h3>Leave a message</h3>
+            <input type="text" name="name" placeholder="Your Name" required maxlength="22" />
+            <textarea name="text" placeholder="Your message..." required maxlength="80" rows="3" id="comment-input"></textarea>
+            <div class="char-counter-wrapper"><span id="char-counter">80</span> / 80</div>
+            <button type="submit">Send</button>
+          </form>
+          <div class="comments-list">
+            <h3>Comments</h3>
+            <div id="comments-container">
+              <p class="loading-text">Loading comments...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Image Lightbox -->
+    <div id="image-lightbox" class="lightbox-overlay">
+      <span class="lightbox-close">&times;</span>
+      <img class="lightbox-content" id="lightbox-img" />
+    </div>
+
+    <script src="script.js"></script>
+    <div class="easter-egg-hint">
+    <span class="hint-desktop">psst... try typing something cute owo</span>
+    <span class="hint-mobile">psst... try shaking me~</span>
+  </div>
+  <script src="script.js"></script>
+  </div>
+</div>
+
+</body>
+</html>
