@@ -15,7 +15,6 @@
   --glass-border: rgba(255, 255, 255, 0.1);
 }
 
-/* Minecraft Font */
 @font-face {
   font-family: 'Mojangles';
   src: url('fonts/mojangles.otf') format('opentype');
@@ -38,14 +37,13 @@ body {
   overflow-x: hidden;
 }
 
-/* Animated Background */
 .bg-gradient {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
+  background:
     radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
     radial-gradient(ellipse at 80% 80%, rgba(168, 85, 247, 0.12) 0%, transparent 50%),
     radial-gradient(ellipse at 50% 50%, rgba(34, 211, 238, 0.05) 0%, transparent 70%);
@@ -58,7 +56,6 @@ body {
   50% { opacity: 0.6; }
 }
 
-/* Paw Animation */
 .paws-container {
   position: fixed;
   top: 0;
@@ -99,7 +96,6 @@ body {
 .paw:nth-child(11) { left: 10%; animation-duration: 17s; animation-delay: 6s; }
 .paw:nth-child(12) { left: 50%; animation-duration: 18s; animation-delay: 7s; }
 
-/* Main Layout */
 .main-grid {
   display: flex;
   flex-direction: column;
@@ -109,7 +105,6 @@ body {
   gap: 1.5rem;
 }
 
-/* Widget Cards */
 .widget-card {
   background: var(--bg-card);
   backdrop-filter: blur(20px);
@@ -125,7 +120,6 @@ body {
   box-shadow: 0 0 30px var(--primary-glow);
 }
 
-/* Now Playing */
 #now-playing-container {
   display: flex;
   align-items: center;
@@ -185,7 +179,6 @@ body {
   transform: scale(1.15);
 }
 
-/* Main Container */
 .container {
   background: var(--bg-card);
   backdrop-filter: blur(25px);
@@ -194,12 +187,11 @@ body {
   padding: 2.5rem 2rem;
   max-width: 440px;
   width: 100%;
-  box-shadow: 
+  box-shadow:
     0 25px 50px -12px rgba(0, 0, 0, 0.5),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-/* Avatar Section */
 .avatar-wrapper {
   position: relative;
   width: 140px;
@@ -253,7 +245,6 @@ body {
 .discord-status-dot-avatar.dnd { background: #ed4245; box-shadow: 0 0 12px #ed4245; }
 .discord-status-dot-avatar.offline { background: #747f8d; }
 
-/* Profile Buddy (Sharky) */
 .profile-buddy {
   position: absolute;
   bottom: -5px;
@@ -295,7 +286,6 @@ body {
   transform: translateX(-50%) translateY(0);
 }
 
-/* Profile Info */
 .profile-name {
   text-align: center;
   font-size: 1.9rem;
@@ -318,7 +308,6 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* Links - Two buttons per row */
 .links {
   display: flex;
   flex-direction: column;
@@ -364,7 +353,6 @@ body {
   opacity: 1;
 }
 
-/* Overlays */
 .overlay {
   position: fixed;
   top: 0;
@@ -432,7 +420,6 @@ body {
   color: var(--primary-light);
 }
 
-/* Friends List */
 .friends-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
@@ -475,7 +462,6 @@ body {
   white-space: nowrap;
 }
 
-/* Gallery */
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
@@ -530,7 +516,6 @@ body {
   display: none;
 }
 
-/* Lightbox */
 .lightbox-overlay {
   position: fixed;
   inset: 0;
@@ -570,7 +555,6 @@ body {
   color: var(--primary-light);
 }
 
-/* Events */
 .events-list {
   display: flex;
   flex-direction: column;
@@ -631,7 +615,6 @@ body {
   border: 1px solid var(--glass-border);
 }
 
-/* Comments / Guestbook */
 .comments-section {
   display: flex;
   flex-direction: column;
@@ -766,7 +749,6 @@ body {
   color: var(--text-secondary);
 }
 
-/* Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -784,7 +766,6 @@ body {
   background: var(--text-secondary);
 }
 
-/* Responsive */
 @media (max-width: 480px) {
   .container {
     padding: 2rem 1.5rem;
@@ -818,7 +799,6 @@ body {
   }
 }
 
-/* No comments message */
 .no-comments,
 .error-text {
   color: var(--text-secondary);
@@ -831,7 +811,6 @@ body {
   color: #ed4245;
 }
 
-/* Comment animations */
 .comment {
   animation: fadeInUp 0.3s ease;
 }
@@ -847,7 +826,6 @@ body {
   }
 }
 
-/* Liked button state */
 .like-button.liked {
   filter: grayscale(0);
   cursor: default;
@@ -861,7 +839,6 @@ body {
   filter: grayscale(0);
 }
 
-/* ========== SPOTIFY SLIDE-IN WIDGET ========== */
 .spotify-widget {
   position: fixed;
   bottom: 1.5rem;
@@ -878,11 +855,11 @@ body {
   z-index: 500;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
   cursor: pointer;
-  
-  /* Hidden by default - slides in from right */
+
+
   transform: translateX(calc(100% + 2rem));
   opacity: 0;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
               opacity 0.4s ease,
               border-color 0.2s ease;
 }
@@ -980,7 +957,6 @@ body {
   color: #1DB954;
 }
 
-/* Mobile adjustments */
 @media (max-width: 480px) {
   .spotify-widget {
     right: 1rem;
@@ -989,7 +965,6 @@ body {
   }
 }
 
-/* Mobile - Single column buttons */
 @media (max-width: 480px) {
   .container {
     padding: 2rem 1.5rem;
@@ -1027,7 +1002,6 @@ body {
   }
 }
 
-/* ========== WINTER / CHRISTMAS THEME ========== */
 body.winter-theme .container {
   border-color: rgba(191, 219, 254, 0.4);
   box-shadow: 0 0 40px rgba(129, 140, 248, 0.35);
@@ -1040,13 +1014,10 @@ body.winter-theme .bg-gradient {
     radial-gradient(ellipse at 50% 50%, rgba(148, 163, 184, 0.08) 0%, transparent 75%);
 }
 
-
-/* Optional frosty avatar border */
 body.winter-theme .gradient-border {
   background: linear-gradient(135deg, #e0f2fe, #bfdbfe, #a5b4fc);
 }
 
-/* Discord custom status thinking bubble */
 .status-bubble {
   position: absolute;
   top: -10px;
@@ -1068,7 +1039,6 @@ body.winter-theme .gradient-border {
   z-index: 15;
 }
 
-/* Main bubble tail */
 .status-bubble::after {
   content: "";
   position: absolute;
@@ -1096,13 +1066,10 @@ body.winter-theme .gradient-border {
     -10px -4px 0 0 rgba(15, 23, 42, 0.96);
 }
 
-/* Visible state controlled by JS */
 .status-bubble.visible {
   opacity: 1;
   transform: translateY(0);
 }
-
-/* ========== FURRY EASTER EGG ANIMATIONS ========== */
 
 /* Avatar bounce */
 @keyframes owoBounce {
@@ -1175,7 +1142,6 @@ body.winter-theme .gradient-border {
   100% { filter: hue-rotate(360deg) brightness(1.2); }
 }
 
-/* ========== EASTER EGG HINT ========== */
 .easter-egg-hint {
   position: fixed;
   bottom: 0.5rem;
@@ -1204,7 +1170,7 @@ body.winter-theme .gradient-border {
   .hint-desktop {
     display: none;
   }
-  
+
   .hint-mobile {
     display: inline;
   }
@@ -1219,7 +1185,6 @@ body.winter-theme .easter-egg-hint:hover {
   color: rgba(191, 219, 254, 0.35);
 }
 
-/* ========== PAWHOST THEME (CORRECTED) ========== */
 body.pawhost-theme {
   --primary: #ff6900;
   --primary-light: #ff8533;
@@ -1267,7 +1232,6 @@ body.pawhost-theme .bg-gradient {
     radial-gradient(ellipse at 50% 50%, rgba(255, 171, 102, 0.08) 0%, transparent 70%);
 }
 
-/* PawHost button special glow */
 #pawhost-button {
   position: relative;
   overflow: hidden;
@@ -1353,7 +1317,6 @@ body.pawhost-theme .paw:nth-child(12) {
   100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
 }
 
-/* ========== MINECRAFT FLOATING BUTTON ========== */
 .main-grid {
   position: relative;
 }
@@ -1372,7 +1335,7 @@ body.pawhost-theme .paw:nth-child(12) {
   box-shadow: 0 8px 25px rgba(106, 153, 78, 0.4);
   transition: all 0.3s ease;
   z-index: 400;
-  
+
   /* Use minecraft.svg as background */
   background-image: url('img/minecraft.svg');
   background-size: 60%;
@@ -1400,12 +1363,11 @@ body.pawhost-theme .paw:nth-child(12) {
   transform: translateY(-50%) scale(1.02);
 }
 
-/* Tablet and Mobile: inside container */
 @media (max-width: 768px) {
   .container {
     position: relative;
   }
-  
+
   .minecraft-floating-btn {
     position: absolute;
     top: 1.5rem; /* Moved further inside */
@@ -1416,15 +1378,15 @@ body.pawhost-theme .paw:nth-child(12) {
     width: 45px;
     height: 45px;
   }
-  
+
   .minecraft-floating-btn.widget-active {
     top: 1.5rem;
   }
-  
+
   .minecraft-floating-btn:hover {
     transform: scale(1.05);
   }
-  
+
   .minecraft-floating-btn:active {
     transform: scale(1.02);
   }
@@ -1438,13 +1400,12 @@ body.pawhost-theme .paw:nth-child(12) {
     width: 42px;
     height: 42px;
   }
-  
+
   .minecraft-floating-btn.widget-active {
     top: 2rem;
   }
 }
 
-/* ========== MINECRAFT SERVER MODAL ========== */
 .minecraft-info {
   display: flex;
   flex-direction: column;

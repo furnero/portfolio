@@ -1,45 +1,25 @@
-# Disable directory listing
 Options -Indexes
 
-# Deny access to hidden files
 <FilesMatch "^\.">
     Require all denied
 </FilesMatch>
 
-# Protect sensitive files
 <FilesMatch "(^#.*#|\.(bak|conf|dist|fla|in[ci]|log|psd|sh|sql|sw[op])|~)$">
     Require all denied
 </FilesMatch>
 
-# Block access to specific files
 <Files "robots.txt">
     Require all granted
 </Files>
 
-# Prevent viewing of .htaccess itself
 <Files ".htaccess">
     Require all denied
 </Files>
 
-# Custom error pages (optional)
-ErrorDocument 403 /index.html
-ErrorDocument 404 /index.html
-
-# Force HTTPS (optional, if you have SSL)
-# RewriteEngine On
-# RewriteCond %{HTTPS} off
-# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
-# Set default charset
 AddDefaultCharset UTF-8
 
-# Prevent clickjacking
 Header always set X-Frame-Options "SAMEORIGIN"
-
-# XSS protection
 Header always set X-XSS-Protection "1; mode=block"
-
-# Prevent MIME type sniffing
 Header always set X-Content-Type-Options "nosniff"
 
 RewriteRule ^furaffinity/?$ https://www.furaffinity.net/user/nerozhen [R=301,L]
