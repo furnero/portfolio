@@ -856,7 +856,6 @@ body {
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
   cursor: pointer;
 
-
   transform: translateX(calc(100% + 2rem));
   opacity: 0;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
@@ -1052,7 +1051,7 @@ body.winter-theme .gradient-border {
   transform: rotate(45deg);
 }
 
-/* Two small \"thought\" circles leading to the head */
+/* Two small "thought" circles leading to the head */
 .status-bubble::before {
   content: "";
   position: absolute;
@@ -1524,3 +1523,393 @@ body.pawhost-theme .paw:nth-child(12) {
   color: var(--text-primary);
   margin-right: 0.5rem;
 }
+/* Minigames mobile notice */
+.minigames-mobile-notice {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  background: var(--glass);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+}
+
+.minigames-mobile-notice i {
+  font-size: 3rem;
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+
+.minigames-mobile-notice p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.minigames-notice-sub {
+  font-size: 0.85rem !important;
+  color: var(--text-secondary) !important;
+}
+
+/* Mobile - hide minigames, show notice */
+@media (max-width: 768px) {
+  .minigames-mobile-notice {
+    display: flex !important;
+  }
+  
+  .minigames-layout {
+    display: none !important;
+  }
+  
+  /* Also hide individual parts just in case */
+  .minigames-list,
+  .minigame-container {
+    display: none !important;
+  }
+}
+
+
+/* Minigames layout + fixed-height container + leaderboard */
+.minigames-layout {
+  display: flex;
+  gap: 1rem;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.minigames-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 0 0 180px;
+}
+
+.minigame-container {
+  flex: 1 1 220px;
+  background: var(--glass);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  padding: 0.75rem 0.9rem 0.9rem;
+  min-height: 260px;
+  height: 260px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.minigame-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.4rem;
+}
+
+.minigame-name-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex: 1 1 auto;
+}
+
+.minigame-name-wrap label {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.minigame-player-name {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--text-primary);
+  padding: 0.35rem 0.5rem;
+  font-family: inherit;
+  font-size: 0.8rem;
+}
+
+.minigame-player-name:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.minigame-leaderboard-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--secondary-light);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease, border-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.minigame-leaderboard-btn:hover {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-color: transparent;
+  transform: translateY(-1px);
+}
+
+.minigame-leaderboard-btn i {
+  font-size: 1rem;
+}
+
+.minigame-content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.minigame {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.minigame-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.minigame-description {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.minigame-primary-btn {
+  align-self: flex-start;
+  padding: 0.6rem 1.1rem;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #ffffff;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.2s ease, transform 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.minigame-primary-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.minigame-stat {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.minigame-highlight {
+  color: var(--primary-light);
+  font-weight: 600;
+}
+
+.minigame-target {
+  margin-top: 0.5rem;
+  align-self: center;
+  padding: 1rem 1.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  background: var(--bg-card-hover);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--text-primary);
+}
+
+.minigame-target.ready {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+}
+
+.minigame-target:active {
+  transform: scale(0.97);
+}
+
+.minigame-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.minigame-cell {
+  aspect-ratio: 1;
+  border-radius: 6px;
+  background: var(--bg-card-hover);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.minigame-cell.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+}
+
+.minigame-cell:active {
+  transform: scale(0.95);
+}
+
+.minigame-input {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  color: var(--text-primary);
+  padding: 0.6rem 0.8rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.minigame-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.minigame-leaderboard-panel {
+  margin-top: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  background: rgba(0, 0, 0, 0.35);
+  font-size: 0.8rem;
+  display: none;
+}
+
+.minigame-leaderboard-panel.visible {
+  display: block;
+}
+
+.minigame-leaderboard-title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.minigame-leaderboard-list {
+  margin: 0 0 0.4rem 1.1rem;
+  padding: 0;
+}
+
+.minigame-leaderboard-list li {
+  margin-bottom: 0.15rem;
+}
+
+.minigame-leaderboard-last {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+/* Mobile optimizations for minigames */
+@media (max-width: 640px) {
+  .minigames-layout {
+    flex-direction: column;
+  }
+
+  .minigames-list {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+    flex: 1 1 auto;
+  }
+
+  .minigames-list .link-button {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    font-size: 0.85rem;
+    padding: 0.7rem 0.9rem;
+  }
+
+  .minigame-container {
+    min-height: 320px;
+    height: auto;
+    max-height: 450px;
+  }
+
+  .minigame-header {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .minigame-name-wrap {
+    flex: 1 1 100%;
+  }
+
+  .minigame-player-name {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.65rem;
+  }
+
+  .minigame-leaderboard-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .minigame-leaderboard-btn i {
+    font-size: 1.1rem;
+  }
+
+  .minigame-title {
+    font-size: 1.1rem;
+  }
+
+  .minigame-description {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .minigame-primary-btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+    align-self: stretch;
+  }
+
+  .minigame-target {
+    padding: 1.25rem 2rem;
+    font-size: 1.1rem;
+    align-self: stretch;
+  }
+
+  .minigame-stat {
+    font-size: 0.9rem;
+  }
+
+  .minigame-input {
+    font-size: 1rem;
+    padding: 0.75rem 0.9rem;
+  }
+
+  .minigame-leaderboard-panel {
+    font-size: 0.85rem;
+    padding: 0.75rem 0.85rem;
+  }
+
+  .minigame-leaderboard-title {
+    font-size: 0.85rem;
+  }
+
+  .minigame-leaderboard-list {
+    font-size: 0.85rem;
+  }
+
+  .minigame-leaderboard-last {
+    font-size: 0.85rem;
+  }
+}
+

@@ -108,8 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const galleryGrid = document.getElementById("gallery-grid");
   const lightbox = document.getElementById("image-lightbox");
   const lightboxImg = document.getElementById("lightbox-img");
-  const lightboxClose = document.querySelector
-(".lightbox-close");
+  const lightboxClose = document.querySelector(".lightbox-close");
 
   if (galleryGrid && lightbox) {
     galleryGrid.addEventListener("click", (e) => {
@@ -598,4 +597,405 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
+});
+
+/* Minigames + Firestore-backed leaderboard */
+
+const MINIGAME_NAME_KEY = "neroMinigamePlayerName";
+let currentMinigameKey = "reaction";
+
+function getPlayerName() {
+  const input = document.getElementById("minigame-player-name");
+  return input ? input.value.trim() : "";
+}
+
+function getGameConfig(game) {
+  if (game === "clicker") {
+    return { betterLower: false };
+  }
+  // reaction + typing: lower is better
+  return { betterLower: true };
+}
+
+function saveMinigameScore(game, name, value, display) {
+  if (!firebaseAvailable || !db || !name) return;
+  db.collection("minigameScores")
+    .add({
+      game,
+      name,
+      value,
+      display,
+      ts: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .catch((err) => console.error("Error saving score:", err));
+}
+
+function renderMinigameLeaderboard(game) {
+  const panel = document.getElementById("minigame-leaderboard-panel");
+  const listEl = document.getElementById("minigame-leaderboard-list");
+  const lastEl = document.getElementById("minigame-leaderboard-last");
+  if (!panel || !listEl || !lastEl) return;
+
+  if (!firebaseAvailable || !db) {
+    listEl.innerHTML = "<li>Leaderboard unavailable.</li>";
+    lastEl.textContent = "No connection to database.";
+    return;
+  }
+
+  const cfg = getGameConfig(game);
+  const scoresRef = db.collection("minigameScores").where("game", "==", game);
+
+  // Top 10
+  scoresRef
+    .orderBy("value", cfg.betterLower ? "asc" : "desc")
+    .limit(10)
+    .get()
+    .then((snapshot) => {
+      if (snapshot.empty) {
+        listEl.innerHTML = "<li>No entries yet.</li>";
+      } else {
+        const items = [];
+        let idx = 1;
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          const safeName = (data.name || "").replace(/[<>]/g, "");
+          items.push(
+            `<li>#${idx++} ${safeName} — <span class="minigame-highlight">${data.display}</span></li>`
+          );
+        });
+        listEl.innerHTML = items.join("");
+      }
+    })
+    .catch((err) => {
+      console.error("Error loading leaderboard:", err);
+      listEl.innerHTML = "<li>Failed to load leaderboard.</li>";
+    });
+
+  // Most recent entry
+  scoresRef
+    .orderBy("ts", "desc")
+    .limit(1)
+    .get()
+    .then((snapshot) => {
+      if (snapshot.empty) {
+        lastEl.textContent = "No entries yet.";
+      } else {
+        const data = snapshot.docs[0].data();
+        const safeName = (data.name || "").replace(/[<>]/g, "");
+        lastEl.innerHTML = `${safeName} — <span class="minigame-highlight">${data.display}</span>`;
+      }
+    })
+    .catch((err) => {
+      console.error("Error loading last entry:", err);
+      lastEl.textContent = "Failed to load last entry.";
+    });
+}
+
+function initReactionGame(root) {
+  root.innerHTML = `
+    <div class="minigame">
+      <div class="minigame-title">Reaction Fox</div>
+      <div class="minigame-description">
+        Wait for the button to glow, then click as fast as you can.
+      </div>
+      <button class="minigame-target" id="reaction-target">Start</button>
+      <div class="minigame-stat" id="reaction-status"></div>
+      <div class="minigame-stat">
+        Best: <span class="minigame-highlight" id="reaction-best">–</span>
+      </div>
+    </div>
+  `;
+
+  const target = root.querySelector("#reaction-target");
+  const status = root.querySelector("#reaction-status");
+  const bestEl = root.querySelector("#reaction-best");
+
+  let timeoutId = null;
+  let startTime = null;
+  let best = null;
+  let waiting = false;
+
+  function reset() {
+    waiting = false;
+    startTime = null;
+    target.classList.remove("ready");
+    target.textContent = "Start";
+    status.textContent = "";
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      timeoutId = null;
+    }
+  }
+
+  function schedule() {
+    waiting = true;
+    status.textContent = "Wait for green...";
+    target.textContent = "Wait...";
+    const delay = 1000 + Math.random() * 2000;
+    timeoutId = setTimeout(() => {
+      target.classList.add("ready");
+      target.textContent = "Click!";
+      status.textContent = "Click now!";
+      startTime = performance.now();
+    }, delay);
+  }
+
+  target.addEventListener("click", () => {
+    if (!waiting && !startTime) {
+      reset();
+      schedule();
+      return;
+    }
+
+    if (waiting && !startTime) {
+      reset();
+      status.textContent = "Too soon, try again.";
+      return;
+    }
+
+    if (startTime) {
+      const reaction = performance.now() - startTime;
+      const rounded = Math.round(reaction);
+      status.textContent = `Your reaction time: ${rounded} ms`;
+      if (best === null || reaction < best) {
+        best = reaction;
+        bestEl.textContent = `${rounded} ms`;
+      }
+
+      const name = getPlayerName();
+      if (name) {
+        saveMinigameScore("reaction", name, reaction, `${rounded} ms`);
+        renderMinigameLeaderboard("reaction");
+      }
+
+      reset();
+    }
+  });
+}
+
+function initClickerGame(root) {
+  root.innerHTML = `
+    <div class="minigame">
+      <div class="minigame-title">Paw Clicker</div>
+      <div class="minigame-description">
+        You have 10 seconds to click as many paws as you can.
+      </div>
+      <button class="minigame-primary-btn" id="clicker-start">Start round</button>
+      <div class="minigame-stat">
+        Time left: <span class="minigame-highlight" id="clicker-time">10</span>s
+      </div>
+      <div class="minigame-stat">
+        Score: <span class="minigame-highlight" id="clicker-score">0</span>
+        &nbsp;|&nbsp; Best: <span class="minigame-highlight" id="clicker-best">0</span>
+      </div>
+      <button class="minigame-target" id="clicker-target">🐾 Tap me</button>
+    </div>
+  `;
+
+  const startBtn = root.querySelector("#clicker-start");
+  const target = root.querySelector("#clicker-target");
+  const timeEl = root.querySelector("#clicker-time");
+  const scoreEl = root.querySelector("#clicker-score");
+  const bestEl = root.querySelector("#clicker-best");
+
+  let time = 10;
+  let score = 0;
+  let best = 0;
+  let intervalId = null;
+  let running = false;
+
+  function stop() {
+    running = false;
+    if (intervalId) {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+    startBtn.disabled = false;
+    target.disabled = true;
+
+    const name = getPlayerName();
+    if (name && score > 0) {
+      saveMinigameScore("clicker", name, score, `${score} clicks`);
+      renderMinigameLeaderboard("clicker");
+    }
+  }
+
+  function start() {
+    if (running) return;
+    running = true;
+    time = 10;
+    score = 0;
+    timeEl.textContent = time;
+    scoreEl.textContent = score;
+    startBtn.disabled = true;
+    target.disabled = false;
+
+    intervalId = setInterval(() => {
+      time -= 1;
+      timeEl.textContent = time;
+      if (time <= 0) {
+        if (score > best) {
+          best = score;
+          bestEl.textContent = best;
+        }
+        stop();
+      }
+    }, 1000);
+  }
+
+  startBtn.addEventListener("click", start);
+
+  target.addEventListener("click", () => {
+    if (!running) return;
+    score += 1;
+    scoreEl.textContent = score;
+    target.style.transform = "scale(0.95)";
+    setTimeout(() => {
+      target.style.transform = "";
+    }, 80);
+  });
+
+  target.disabled = true;
+}
+
+function initTypingGame(root) {
+  const phrases = [
+    "foxes are very valid",
+    "paws on keyboard",
+    "owo type fast",
+    "linux and fluffy tails"
+  ];
+
+  root.innerHTML = `
+    <div class="minigame">
+      <div class="minigame-title">Typing Rush</div>
+      <div class="minigame-description">
+        Type the sentence as fast as you can without mistakes.
+      </div>
+      <div class="minigame-stat">
+        Target: <span class="minigame-highlight" id="typing-target"></span>
+      </div>
+      <input class="minigame-input" id="typing-input" placeholder="Start typing to begin..." />
+      <div class="minigame-stat">
+        Last: <span class="minigame-highlight" id="typing-last">–</span>
+        &nbsp;|&nbsp; Best: <span class="minigame-highlight" id="typing-best">–</span>
+      </div>
+    </div>
+  `;
+
+  const targetEl = root.querySelector("#typing-target");
+  const input = root.querySelector("#typing-input");
+  const lastEl = root.querySelector("#typing-last");
+  const bestEl = root.querySelector("#typing-best");
+
+  let current = "";
+  let startTime = null;
+  let best = null;
+
+  function newPhrase() {
+    current = phrases[Math.floor(Math.random() * phrases.length)];
+    targetEl.textContent = current;
+    input.value = "";
+    startTime = null;
+    input.style.borderColor = "var(--glass-border)";
+  }
+
+  input.addEventListener("input", () => {
+    if (!current) return;
+    if (!startTime && input.value.length > 0) {
+      startTime = performance.now();
+    }
+
+    if (current.startsWith(input.value)) {
+      input.style.borderColor = "var(--glass-border)";
+    } else {
+      input.style.borderColor = "#ef4444";
+    }
+
+    if (input.value === current && startTime) {
+      const time = performance.now() - startTime;
+      const seconds = (time / 1000).toFixed(2);
+      lastEl.textContent = `${seconds}s`;
+      if (best === null || time < best) {
+        best = time;
+        bestEl.textContent = `${seconds}s`;
+      }
+
+      const name = getPlayerName();
+      if (name) {
+        saveMinigameScore("typing", name, time, `${seconds}s`);
+        renderMinigameLeaderboard("typing");
+      }
+
+      newPhrase();
+    }
+  });
+
+  newPhrase();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const container = document.getElementById("minigame-content");
+  const gameButtons = document.querySelectorAll(".minigame-select");
+  const leaderboardBtn = document.getElementById("minigame-leaderboard-btn");
+  const leaderboardPanel = document.getElementById("minigame-leaderboard-panel");
+  const playerNameInput = document.getElementById("minigame-player-name");
+
+  // Check if mobile - disable minigames on small screens
+  function isMobile() {
+    return window.innerWidth <= 768;
+  }
+
+  if (isMobile()) {
+    // Don't initialize minigames on mobile
+    return;
+  }
+
+  if (playerNameInput) {
+    const savedName = localStorage.getItem(MINIGAME_NAME_KEY);
+    if (savedName) playerNameInput.value = savedName;
+    playerNameInput.addEventListener("input", () => {
+      localStorage.setItem(MINIGAME_NAME_KEY, playerNameInput.value.trim());
+    });
+  }
+
+  if (leaderboardBtn && leaderboardPanel) {
+    leaderboardBtn.addEventListener("click", () => {
+      leaderboardPanel.classList.toggle("visible");
+      if (leaderboardPanel.classList.contains("visible")) {
+        renderMinigameLeaderboard(currentMinigameKey);
+      }
+    });
+  }
+
+  if (!container || !gameButtons.length) return;
+
+  const games = {
+    reaction: initReactionGame,
+    clicker: initClickerGame,
+    typing: initTypingGame
+  };
+
+  function loadGame(key) {
+    const init = games[key];
+    if (!init) return;
+    currentMinigameKey = key;
+
+    gameButtons.forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.game === key);
+    });
+    container.innerHTML = "";
+    init(container);
+
+    if (leaderboardPanel && leaderboardPanel.classList.contains("visible")) {
+      renderMinigameLeaderboard(currentMinigameKey);
+    }
+  }
+
+  gameButtons.forEach(btn => {
+    btn.addEventListener("click", () => loadGame(btn.dataset.game));
+  });
+
+  // Load default game
+  loadGame("reaction");
 });
