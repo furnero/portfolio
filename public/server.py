@@ -6,6 +6,16 @@ from urllib.parse import urlparse, unquote
 from pathlib import Path
 
 PORT = 8050
+socketserver.TCPServer.allow_reuse_address = True
+with socketserver.TCPServer(("", PORT), SecureHTTPRequestHandler) as httpd:
+    httpd.serve_forever()
+with socketserver.TCPServer(("", PORT), SecureHTTPRequestHandler) as httpd:
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        httpd.server_close()
 BASE = Path(__file__).parent
 BOMB_DIR = BASE / "htmlbomb"
 
