@@ -439,8 +439,9 @@ function triggerOwoEasterEgg() {
 
   try {
     const sounds = [
-      "sounds/owo2.mp3",
-      "sounds/owo4.mp3"
+      "sounds/owo.mp3",
+      "sounds/mc-fox.mp3",
+      "sounds/botw-fox.wav"
     ];
     const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
     const audio = new Audio(randomSound);
