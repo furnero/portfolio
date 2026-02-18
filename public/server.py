@@ -8,45 +8,23 @@ from pathlib import Path
 
 PORT = 8050
 BASE = Path(__file__).parent
-BOMB_DIR = BASE / "htmlbomb"
 
 class SecureHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         parsed_path = urlparse(self.path)
         path = unquote(parsed_path.path)
 
-        if path == "/htmlbomb/bomb.html":
-            accept = self.headers.get("Accept-Encoding", "")
-            try:
-                if "gzip" in accept:
-                    data = (BOMB_DIR / "bomb.html.gz").read_bytes()
-                    self.send_response(200)
-                    self.send_header("Content-Type", "text/html; charset=utf-8")
-                    self.send_header("Content-Encoding", "gzip")
-                    self.send_header("Content-Length", str(len(data)))
-                    self.end_headers()
-                    self.wfile.write(data)
-                else:
-                    data = (BOMB_DIR / "bomb.html").read_bytes()
-                    self.send_response(200)
-                    self.send_header("Content-Type", "text/html; charset=utf-8")
-                    self.send_header("Content-Length", str(len(data)))
-                    self.end_headers()
-                    self.wfile.write(data)
-            except FileNotFoundError:
-                self.send_error(404, "Bomb file not found")
-            return
-
+        # Basic security checks
         if path.endswith("/") and path != "/":
             self.send_error(403, "Directory listing disabled")
             return
-
+        
         if "/." in path or path.startswith("/."):
             self.send_error(403, "Access denied")
             return
 
-        blocked_extensions = [".htaccess", ".env", ".git", ".py", ".sh", ".sql", ".bak", ".conf"]
-        if any(path.endswith(ext) for ext in blocked_extensions):
+        blocked_extensions = [".htaccess", ".env", ".git", ".py", ".sh", ".sql", ".bak", ".conf", ".ds_store"]
+        if any(path.lower().endswith(ext) for ext in blocked_extensions):
             self.send_error(403, "Access denied")
             return
 
@@ -54,10 +32,12 @@ class SecureHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.send_error(403, "Access denied")
             return
 
+        # Default to index.html for directory access
         file_path = self.translate_path(path)
         if os.path.isdir(file_path):
             index_path = os.path.join(file_path, "index.html")
             if os.path.exists(index_path):
+                # Redirect internal logic to serve index.html without changing URL
                 path = path.rstrip("/") + "/index.html"
                 self.path = path
             else:
@@ -67,13 +47,17 @@ class SecureHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         return super().do_GET()
 
     def end_headers(self):
+        # Security headers
         self.send_header("X-Frame-Options", "SAMEORIGIN")
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("X-XSS-Protection", "1; mode=block")
         self.send_header("Cache-Control", "no-cache, must-revalidate")
+        # CORS (optional, good for local dev if fetching assets across ports)
+        self.send_header("Access-Control-Allow-Origin", "*")
         super().end_headers()
 
     def log_message(self, format, *args):
+        # Custom logging format
         print(f"{self.address_string()} - {format % args}")
 
 def main():
