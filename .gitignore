@@ -6,3 +6,4 @@ node_modules/
 htmlbomb/
 *.tmp
 *.temp
+public/img/
