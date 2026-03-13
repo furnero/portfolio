@@ -2,7 +2,7 @@
 // THEME CONFIGURATION
 // ============================================
 const THEME_CONFIG = {
-    activeTheme: 'winter', // Options: 'default', 'winter', 'spring', 'summer', 'autumn', 'eurofurence', 'nordicfuzzcon'
+    activeTheme: 'spring', // Options: 'default', 'winter', 'spring', 'summer', 'autumn', 'eurofurence', 'nordicfuzzcon'
 };
 
 const THEMES = {
@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ============================================
-// DISCORD STATUS & AVATAR (WITH PAGE FADE-IN)
+// DISCORD STATUS & AVATAR
 // ============================================
 let initialLoadComplete = false;
 
@@ -136,47 +136,44 @@ function fetchDiscordStatus() {
             const presence = data.data;
             const status = presence.discord_status;
 
-            // Update status dot
-            statusDot.classList.remove("online", "idle", "dnd", "offline");
+            statusDot.classList.remove("online", "idle", "dnd", "offline"); // Updates status dot
             statusDot.classList.add(status);
 
-            // Update profile picture with Discord avatar
-            if (profilePicture && presence.discord_user) {
+            if (profilePicture && presence.discord_user) { // Updates profile picture with Discord avatar dynamically
                 const user = presence.discord_user;
                 const avatarUrl = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=256`;
                 
-                // Preload image before revealing page
-                const img = new Image();
+                const img = new Image(); // Preloads image before revealing page
                 img.onload = revealPage;
-                img.onerror = revealPage; // Reveal even if image fails
+                img.onerror = revealPage; // Reveals even if image fails
                 img.src = avatarUrl;
                 
-                // Set the actual src
+                // Sets the actual src
                 profilePicture.src = avatarUrl;
             } else {
                 revealPage();
             }
 
-            // Update custom status bubble
-            if (statusBubble) {
-                const customStatus = (presence.activities || []).find(
-                    (a) => a.type === 4 && a.state && a.state.trim().length > 0
-                );
+            // Updates custom status bubble
+            //if (statusBubble) {
+            //    const customStatus = (presence.activities || []).find(
+            //        (a) => a.type === 4 && a.state && a.state.trim().length > 0
+            //    );
 
-                if (customStatus) {
-                    const emoji = customStatus.emoji?.name || "";
-                    const bubbleText = `${emoji} ${customStatus.state}`.trim();
-                    statusBubble.textContent = bubbleText;
-                    statusBubble.classList.add("visible");
-                } else {
-                    statusBubble.textContent = "";
-                    statusBubble.classList.remove("visible");
-                }
-            }
+            //    if (customStatus) {
+            //        const emoji = customStatus.emoji?.name || "";
+            //        const bubbleText = `${emoji} ${customStatus.state}`.trim();
+            //        statusBubble.textContent = bubbleText;
+            //        statusBubble.classList.add("visible");
+            //    } else {
+            //        statusBubble.textContent = "";
+            //        statusBubble.classList.remove("visible");
+            //    }
+            // }
         })
         .catch((err) => {
             console.error("Discord status error:", err);
-            revealPage(); // Ensure page reveals even on error
+            revealPage(); // Ensures page reveals even on error
         });
 }
 
@@ -184,8 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchDiscordStatus();
     setInterval(fetchDiscordStatus, 30000);
     
-    // Fallback: Force reveal after 2 seconds if Lanyard hangs
-    setTimeout(revealPage, 2000);
+    setTimeout(revealPage, 2000); // Fallback to Force reveal after 2 seconds if Lanyard hangs
 });
 
 // ============================================
@@ -343,11 +339,11 @@ document.addEventListener("keydown", (e) => {
 });
 
 // ============================================
-// EASTER EGG SYSTEM (SIMPLIFIED)
+// EASTER EGG SYSTEM
 // ============================================
-let typedSequence = "";
-let easterEggTimeout = null;
-let easterEggTriggered = 0;
+// let typedSequence = "";
+// let easterEggTimeout = null;
+// let easterEggTriggered = 0;
 
 //function triggerOwoEasterEgg() {
 //    const avatar = document.querySelector(".gradient-border");
@@ -389,12 +385,11 @@ let easterEggTriggered = 0;
 
 function createGlitterPaws() {
     const container = document.querySelector(".main-grid");
-    // Reduced from 20 to 6 for a much subtler effect
     for (let i = 0; i < 6; i++) {
         setTimeout(() => {
             const paw = document.createElement("div");
             paw.className = "glitter-paw";
-            paw.style.left = Math.random() * 80 + 10 + "%"; // Keep within center 80%
+            paw.style.left = Math.random() * 80 + 10 + "%";
             paw.style.top = Math.random() * 80 + 10 + "%";
             container.appendChild(paw);
             setTimeout(() => paw.remove(), 1500);
@@ -425,52 +420,52 @@ document.addEventListener("keypress", (e) => {
 // ============================================
 // MOBILE SHAKE DETECTION
 // ============================================
-let lastShakeTime = 0;
-let shakeThreshold = 15;
-let lastX = 0, lastY = 0, lastZ = 0;
+//let lastShakeTime = 0;
+//let shakeThreshold = 15;
+//let lastX = 0, lastY = 0, lastZ = 0;
 
-function handleMotion(event) {
-    const current = Date.now();
-    if ((current - lastShakeTime) < 1000) return;
+// function handleMotion(event) {
+//    const current = Date.now();
+//    if ((current - lastShakeTime) < 1000) return;
+//
+//    const acceleration = event.accelerationIncludingGravity;
+//    if (!acceleration) return;
+//
+//    const deltaX = Math.abs(acceleration.x - lastX);
+//    const deltaY = Math.abs(acceleration.y - lastY);
+//    const deltaZ = Math.abs(acceleration.z - lastZ);
+//
+//    if (deltaX > shakeThreshold || deltaY > shakeThreshold || deltaZ > shakeThreshold) {
+//        lastShakeTime = current;
+//        triggerOwoEasterEgg();
+//    }
+//
+//    lastX = acceleration.x;
+//    lastY = acceleration.y;
+//    lastZ = acceleration.z;
+//}
 
-    const acceleration = event.accelerationIncludingGravity;
-    if (!acceleration) return;
+// function initShakeDetection() {
+//    if (typeof DeviceMotionEvent !== "undefined") {
+//        if (typeof DeviceMotionEvent.requestPermission === "function") {
+//            document.addEventListener("click", () => {
+//                DeviceMotionEvent.requestPermission()
+//                    .then(response => {
+//                        if (response === "granted") {
+//                            window.addEventListener("devicemotion", handleMotion);
+//                        }
+//                    })
+//                    .catch(console.error);
+//            }, { once: true });
+//        } else {
+//            window.addEventListener("devicemotion", handleMotion);
+//        }
+//    }
+//}
 
-    const deltaX = Math.abs(acceleration.x - lastX);
-    const deltaY = Math.abs(acceleration.y - lastY);
-    const deltaZ = Math.abs(acceleration.z - lastZ);
-
-    if (deltaX > shakeThreshold || deltaY > shakeThreshold || deltaZ > shakeThreshold) {
-        lastShakeTime = current;
-        triggerOwoEasterEgg();
-    }
-
-    lastX = acceleration.x;
-    lastY = acceleration.y;
-    lastZ = acceleration.z;
-}
-
-function initShakeDetection() {
-    if (typeof DeviceMotionEvent !== "undefined") {
-        if (typeof DeviceMotionEvent.requestPermission === "function") {
-            document.addEventListener("click", () => {
-                DeviceMotionEvent.requestPermission()
-                    .then(response => {
-                        if (response === "granted") {
-                            window.addEventListener("devicemotion", handleMotion);
-                        }
-                    })
-                    .catch(console.error);
-            }, { once: true });
-        } else {
-            window.addEventListener("devicemotion", handleMotion);
-        }
-    }
-}
-
-if (/Mobile|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-    initShakeDetection();
-}
+//if (/Mobile|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+//    initShakeDetection();
+//}
 
 // ============================================
 // PAWHOST THEME TOGGLE
@@ -488,3 +483,21 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+// ============================================
+// OTHER CUSTOM FUNCTIONS uwu
+// ============================================
+
+(function updateAge() { // Updates age automatically based on given date
+    const birth = new Date(2006, 3, 21);
+    const now = new Date();
+    let age = now.getFullYear() - birth.getFullYear();
+    const notYet =
+        now.getMonth() < birth.getMonth() ||
+        (now.getMonth() === birth.getMonth() && now.getDate() < birth.getDate());
+    if (notYet) age--;
+    const el = document.getElementById("age-display");
+    if (el) el.textContent = age + "y";
+    setTimeout(updateAge, 3600000);
+})();
+

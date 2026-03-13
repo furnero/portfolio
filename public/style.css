@@ -112,7 +112,7 @@ body.loaded {
 }
 
 /* ============================================ */
-/* SPOTIFY WIDGET (BOTTOM RIGHT) */
+/* SPOTIFY WIDGET */
 /* ============================================ */
 .spotify-widget {
     position: fixed;
@@ -129,8 +129,7 @@ body.loaded {
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
     z-index: 100;
     
-    /* Animation: Slide in from right */
-    transform: translateX(120%); /* Start hidden to the right */
+    transform: translateX(120%);
     opacity: 0;
     transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
     
@@ -248,7 +247,7 @@ body.loaded {
     .spotify-widget {
         bottom: 1rem;
         right: 1rem;
-        max-width: calc(100% - 2rem); /* Full width minus margins */
+        max-width: calc(100% - 2rem);
     }
 }
 
@@ -258,7 +257,7 @@ body.loaded {
   backdrop-filter: blur(25px);
   border: 1px solid var(--glass-border);
   border-radius: 24px;
-  padding: 2.3rem 2rem; /* slightly tighter than before */
+  padding: 2.3rem 2rem;
   max-width: 440px;
   width: 100%;
   box-shadow:
@@ -270,7 +269,7 @@ body.loaded {
   position: relative;
   width: 140px;
   height: 140px;
-  margin: 0 auto 0.85rem; /* reduced (was larger) */
+  margin: 0 auto 0.85rem;
 }
 
 .gradient-border {
@@ -296,7 +295,6 @@ body.loaded {
   border: 3px solid var(--bg-dark);
 }
 
-/* Buddy LEFT (requested) */
 .profile-buddy {
   position: absolute;
   bottom: -5px;
@@ -316,7 +314,6 @@ body.loaded {
   box-shadow: 0 0 16px var(--primary-glow);
 }
 
-/* Status dot RIGHT (requested) */
 .discord-status-dot-avatar {
   position: absolute;
   bottom: 5px;
@@ -362,7 +359,6 @@ body.loaded {
   transform: translateX(-50%) translateY(0);
 }
 
-/* Important: bubble should not reserve space when hidden */
 .discord-status-bubble {
   text-align: center;
   font-size: 0.9rem;
@@ -374,7 +370,7 @@ body.loaded {
 
   opacity: 0;
   max-height: 0;
-  margin: 0 auto;              /* no bottom margin when hidden */
+  margin: 0 auto;
   overflow: hidden;
 
   transition: opacity 0.25s ease, max-height 0.25s ease, margin 0.25s ease;
@@ -383,14 +379,14 @@ body.loaded {
 .discord-status-bubble.visible {
   opacity: 1;
   max-height: 90px;
-  margin: 0 auto 0.75rem;       /* only add spacing when visible */
+  margin: 0 auto 0.75rem;
 }
 
 .profile-name {
   text-align: center;
   font-size: 1.9rem;
   font-weight: 700;
-  margin: 0.1rem 0 0.35rem;     /* tightened */
+  margin: 0.1rem 0 0.35rem;
 }
 
 .animated-text {
@@ -404,7 +400,7 @@ body.loaded {
   text-align: center;
   color: var(--text-secondary);
   font-size: 0.95rem;
-  margin-bottom: 1.6rem;        /* slightly tighter */
+  margin-bottom: 1.6rem;
   letter-spacing: 0.5px;
 }
 
@@ -754,7 +750,6 @@ body.loaded {
   border: 1px solid var(--glass-border);
 }
 
-/* Comments (kept; no functional change here) */
 .comments-section {
   display: flex;
   flex-direction: column;
@@ -872,7 +867,7 @@ body.loaded {
 ::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--text-secondary); }
 
-/* Easter egg (toned down) */
+/* Easter egg */
 @keyframes owoBounce {
   0%, 100% { transform: scale(1) rotate(0deg); }
   25% { transform: scale(1.05) rotate(-3deg); }
@@ -884,17 +879,14 @@ body.loaded {
   animation: owoBounce 0.45s ease-in-out;
 }
 
-/* much softer than the old “rainbowGlow” */
 .owo-glow {
   box-shadow: 0 0 18px rgba(255, 255, 255, 0.04), 0 0 26px var(--primary-glow) !important;
 }
 
-/* keep bubble readable, no extra pulsing */
 .owo-bubble {
   font-weight: 600;
 }
 
-/* subtle paws, no rainbow cycle */
 .glitter-paw {
   position: fixed;
   width: 22px;
@@ -962,7 +954,6 @@ body.pawhost-theme .paw {
   filter: brightness(1.08) saturate(1.15) !important;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .container { padding: 2rem 1.5rem; }
   .modal { padding: 1.5rem; margin: 1rem; }
@@ -981,4 +972,72 @@ body.pawhost-theme .paw {
   .profile-buddy { width: 42px; height: 42px; }
   .link-button { font-size: 0.85rem; padding: 0.75rem 0.85rem; }
   #now-playing-container { min-width: 240px; }
+}
+
+/* ============================================
+   SITE FOOTER
+   ============================================ */
+.site-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px 0 14px;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.03em;
+    user-select: none;
+    background: linear-gradient(to top, var(--bg-dark) 60%, transparent);
+    z-index: 10;
+}
+
+.footer-heart {
+    font-size: 0.9rem;
+}
+
+.footer-github {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.footer-github:hover {
+    color: var(--text-primary);
+    transform: scale(1.2);
+}
+
+@media (max-width: 768px) {
+    .site-footer {
+        font-size: 0.78rem;
+        padding: 8px 0 12px;
+        gap: 8px;
+    }
+
+    .footer-github {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .site-footer {
+        font-size: 0.72rem;
+        padding: 7px 0 10px;
+        gap: 6px;
+        letter-spacing: 0.01em;
+    }
+
+    .footer-github {
+        font-size: 0.95rem;
+    }
+
+    .footer-github:hover {
+        transform: scale(1.1);
+    }
 }
